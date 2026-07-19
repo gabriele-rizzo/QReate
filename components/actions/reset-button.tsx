@@ -8,7 +8,7 @@ export function ResetButton() {
     const reset = useCodeConfigStore((s) => s.reset);
 
     return (
-        <Button size="lg" className="absolute bottom-4 left-4 shadow" onClick={reset}>
+        <Button size="lg" className="fixed sm:absolute bottom-4 left-4 z-10 shadow" onClick={reset}>
             <ArrowCounterClockwiseIcon />
             Reset
         </Button>

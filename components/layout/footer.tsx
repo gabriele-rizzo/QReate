@@ -23,13 +23,13 @@ export function Footer({ author, payment, version }: FooterProps) {
 
             {version && (
                 <Tooltip>
-                    <TooltipTrigger render={<span>v{version}</span>} />
+                    <TooltipTrigger render={<span className="hidden sm:inline">v{version}</span>} />
                     <TooltipContent>❤️</TooltipContent>
                 </Tooltip>
             )}
 
             <a href={payment} className="hover:underline ml-auto">
-                ☕️ Buy me a coffee
+                ☕️<span className="hidden sm:inline">&nbsp;Buy me a coffee</span>
             </a>
         </div>
     );

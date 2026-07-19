@@ -7,7 +7,7 @@ export function DownloadButton() {
     return (
         <Button variant="default">
             <DownloadSimpleIcon />
-            Download
+            <span className="hidden sm:inline">Download</span>
         </Button>
     );
 }

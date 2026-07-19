@@ -10,10 +10,10 @@ export function CodeWrapper() {
     return (
         <div
             data-inverted={type === "transparent"}
-            className="group dark:data-[inverted='true']:bg-card-foreground bg-sidebar h-full flex items-center justify-center"
+            className="group dark:data-[inverted='true']:bg-card-foreground bg-sidebar flex items-center justify-center py-10 sm:py-0 sm:h-full"
         >
             <div className="flex flex-col w-3/4 items-center gap-4">
-                <div className="w-full max-w-3xs md:max-w-full aspect-square">
+                <div className="w-full max-w-3xs sm:max-w-full aspect-square">
                     <Code />
                 </div>
 

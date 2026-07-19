@@ -12,7 +12,7 @@ import packageJson from "@/package.json";
 
 export default function RootPage() {
     return (
-        <div className="h-dvh w-full flex-col flex overflow-hidden">
+        <div className="flex w-full flex-col sm:h-dvh sm:overflow-hidden">
             <Nav
                 actions={
                     <>
@@ -28,16 +28,16 @@ export default function RootPage() {
 
             <Separator orientation="horizontal" />
 
-            <div className="h-full flex flex-col md:flex-row *:odd:flex-1 overflow-hidden">
+            <div className="flex flex-col sm:h-full sm:flex-row sm:*:odd:flex-1 sm:overflow-hidden">
                 <CodeWrapper />
 
                 <div>
-                    <Separator orientation="vertical" className="h-full not-md:hidden" />
-                    <Separator orientation="horizontal" className="w-full md:hidden" />
+                    <Separator orientation="vertical" className="h-full not-sm:hidden" />
+                    <Separator orientation="horizontal" className="w-full sm:hidden" />
                 </div>
 
-                <div className="relative flex-1 overflow-hidden">
-                    <div className="h-full overflow-scroll">
+                <div className="relative sm:flex-1 sm:overflow-hidden">
+                    <div className="sm:h-full sm:overflow-scroll pb-20">
                         <Settings />
                     </div>
 

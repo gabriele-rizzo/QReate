@@ -7,7 +7,7 @@ export function CopyButton() {
     return (
         <Button variant="outline">
             <CopyIcon />
-            Copy
+            <span className="hidden sm:inline">Copy</span>
         </Button>
     );
 }
