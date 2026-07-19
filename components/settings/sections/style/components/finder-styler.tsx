@@ -36,8 +36,8 @@ const INNER_STYLES: Record<FinderPatternInnerStyle, string> = {
 };
 
 export function FinderStyler() {
-    const { set, ...store } = useCodeConfigStore((s) => s);
-    const { finder } = store.style;
+    const finder = useCodeConfigStore((s) => s.style.finder);
+    const set = useCodeConfigStore((s) => s.set);
 
     return (
         <div className="flex flex-col gap-4">
@@ -48,20 +48,18 @@ export function FinderStyler() {
                     data={Object.keys(OUTER_STYLES) as FinderPatternOuterStyle[]}
                     label={(style) => OUTER_STYLES[style]}
                     onChange={(style) =>
-                        set({
-                            ...store,
-                            style: { ...store.style, finder: { ...finder, outer: { ...finder.outer, style } } },
-                        })
+                        set((s) => ({
+                            style: { ...s.style, finder: { ...s.style.finder, outer: { ...s.style.finder.outer, style } } },
+                        }))
                     }
                 />
 
                 <ColorPicker
                     value={finder.outer.color}
                     onChange={(color) =>
-                        set({
-                            ...store,
-                            style: { ...store.style, finder: { ...finder, outer: { ...finder.outer, color } } },
-                        })
+                        set((s) => ({
+                            style: { ...s.style, finder: { ...s.style.finder, outer: { ...s.style.finder.outer, color } } },
+                        }))
                     }
                 />
             </Labeled>
@@ -73,20 +71,18 @@ export function FinderStyler() {
                     data={Object.keys(INNER_STYLES) as FinderPatternInnerStyle[]}
                     label={(style) => INNER_STYLES[style]}
                     onChange={(style) =>
-                        set({
-                            ...store,
-                            style: { ...store.style, finder: { ...finder, inner: { ...finder.inner, style } } },
-                        })
+                        set((s) => ({
+                            style: { ...s.style, finder: { ...s.style.finder, inner: { ...s.style.finder.inner, style } } },
+                        }))
                     }
                 />
 
                 <ColorPicker
                     value={finder.inner.color}
                     onChange={(color) =>
-                        set({
-                            ...store,
-                            style: { ...store.style, finder: { ...finder, inner: { ...finder.inner, color } } },
-                        })
+                        set((s) => ({
+                            style: { ...s.style, finder: { ...s.style.finder, inner: { ...s.style.finder.inner, color } } },
+                        }))
                     }
                 />
             </Labeled>

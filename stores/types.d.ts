@@ -1,1 +1,4 @@
-type StoreWithActions<T> = T & { set: (state: T) => void; reset: () => void };
+type StoreWithActions<T> = T & {
+    set: (partial: Partial<T> | ((state: T) => Partial<T>)) => void;
+    reset: () => void;
+};

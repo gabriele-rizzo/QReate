@@ -7,13 +7,13 @@ import { ImageSizeInput } from "./components/image-size-input";
 import { OpacitySlider } from "./components/opacity-slider";
 
 export default function ImageCodeSettingsSection() {
-    const { set, ...store } = useCodeConfigStore((s) => s);
+    const hasImage = useCodeConfigStore((s) => s.image !== undefined);
 
     return (
         <>
             <ImagePicker />
 
-            {store.image && (
+            {hasImage && (
                 <>
                     <ImageSizeInput />
                     <ExcavateSwitch />

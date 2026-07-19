@@ -11,23 +11,24 @@ const BACKGROUND_TYPES: Record<BackgroundType, string> = {
 };
 
 export function BackgroundPicker() {
-    const { set, ...store } = useCodeConfigStore((s) => s);
+    const background = useCodeConfigStore((s) => s.style.background);
+    const set = useCodeConfigStore((s) => s.set);
 
     return (
         <Labeled label="Background" className="flex flex-row gap-2">
             <SegmentedPicker
-                value={store.style.background.type}
+                value={background.type}
                 data={Object.keys(BACKGROUND_TYPES) as BackgroundType[]}
                 label={(type) => BACKGROUND_TYPES[type]}
                 onChange={(type) =>
-                    set({ ...store, style: { ...store.style, background: { ...store.style.background, type } } })
+                    set((s) => ({ style: { ...s.style, background: { ...s.style.background, type } } }))
                 }
             />
 
             <ColorPicker
-                value={store.style.background.color}
+                value={background.color}
                 onChange={(color) =>
-                    set({ ...store, style: { ...store.style, background: { ...store.style.background, color } } })
+                    set((s) => ({ style: { ...s.style, background: { ...s.style.background, color } } }))
                 }
             />
         </Labeled>

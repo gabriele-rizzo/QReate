@@ -7,20 +7,15 @@ import type { ImageSettings } from "@lglab/react-qr-code";
 import { useCallback } from "react";
 
 export function ImageSizeInput() {
-    const { set, ...store } = useCodeConfigStore((s) => s);
+    const image = useCodeConfigStore((s) => s.image);
+    const set = useCodeConfigStore((s) => s.set);
 
     const onChange = useCallback(
         (value: string, key: keyof Pick<ImageSettings, "width" | "height">) => {
-            if (typeof store.image === "undefined") return;
-
-            try {
-                const data = parseInt(value);
-                set({ ...store, image: { ...store.image, [key]: data } });
-            } catch {
-                return;
-            }
+            const parsed = parseInt(value);
+            set((s) => (s.image ? { image: { ...s.image, [key]: parsed } } : {}));
         },
-        [set, store],
+        [set],
     );
 
     return (
@@ -35,7 +30,7 @@ export function ImageSizeInput() {
                         placeholder="0"
                         type="number"
                         min={10}
-                        value={Number.isNaN(store.image?.width) ? 0 : store.image?.width}
+                        value={Number.isNaN(image?.width) ? 0 : image?.width}
                         onChange={(e) => onChange(e.target.value, "width")}
                     />
                 </InputGroup>
@@ -49,7 +44,7 @@ export function ImageSizeInput() {
                         placeholder="0"
                         type="number"
                         min={10}
-                        value={Number.isNaN(store.image?.height) ? 0 : store.image?.height}
+                        value={Number.isNaN(image?.height) ? 0 : image?.height}
                         onChange={(e) => onChange(e.target.value, "height")}
                     />
                 </InputGroup>

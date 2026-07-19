@@ -24,38 +24,31 @@ const MODULES_STYLES_OPTIONS: Record<CodeDataModulesStyle, DataModulesStyleOptio
 };
 
 export function ModulesStyler() {
-    const { set, ...store } = useCodeConfigStore((s) => s);
-    const { changeable } = MODULES_STYLES_OPTIONS[store.style.modules.style];
+    const modules = useCodeConfigStore((s) => s.style.modules);
+    const set = useCodeConfigStore((s) => s.set);
+    const { changeable } = MODULES_STYLES_OPTIONS[modules.style];
 
     return (
         <div className="flex flex-col gap-4">
             <Labeled label="Data Modules" secondary="Style" className="flex flex-row gap-2">
                 <OptionsPicker
-                    value={store.style.modules.style}
+                    value={modules.style}
                     className="w-40"
                     data={Object.keys(MODULES_STYLES_OPTIONS) as CodeDataModulesStyle[]}
                     label={(style) => MODULES_STYLES_OPTIONS[style].label}
                     onChange={(style) =>
-                        set({
-                            ...store,
-                            style: {
-                                ...store.style,
-                                modules: { ...store.style.modules, style },
-                            },
-                        })
+                        set((s) => ({
+                            style: { ...s.style, modules: { ...s.style.modules, style } },
+                        }))
                     }
                 />
 
                 <ColorPicker
-                    value={store.style.modules.color}
+                    value={modules.color}
                     onChange={(color) =>
-                        set({
-                            ...store,
-                            style: {
-                                ...store.style,
-                                modules: { ...store.style.modules, color },
-                            },
-                        })
+                        set((s) => ({
+                            style: { ...s.style, modules: { ...s.style.modules, color } },
+                        }))
                     }
                 />
             </Labeled>
@@ -63,25 +56,24 @@ export function ModulesStyler() {
             {changeable !== null && (
                 <Labeled
                     label={changeable === "size" ? "Size" : "Line Width"}
-                    secondary={store.style.modules[changeable].toString()}
+                    secondary={modules[changeable].toString()}
                 >
                     <Slider
                         min={0.75}
                         max={1}
-                        value={store.style.modules[changeable]}
+                        value={modules[changeable]}
                         step={0.01}
                         className="mt-3.5"
                         onValueChange={(value) =>
-                            set({
-                                ...store,
+                            set((s) => ({
                                 style: {
-                                    ...store.style,
+                                    ...s.style,
                                     modules: {
-                                        ...store.style.modules,
+                                        ...s.style.modules,
                                         [changeable]: typeof value === "number" ? value : value[0],
                                     },
                                 },
-                            })
+                            }))
                         }
                     />
                 </Labeled>

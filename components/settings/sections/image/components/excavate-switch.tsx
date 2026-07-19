@@ -6,15 +6,12 @@ import { useCodeConfigStore } from "@/stores/code-config/provider";
 import { useCallback } from "react";
 
 export function ExcavateSwitch() {
-    const { set, ...store } = useCodeConfigStore((s) => s);
+    const excavate = useCodeConfigStore((s) => s.image?.excavate);
+    const set = useCodeConfigStore((s) => s.set);
 
     const onChange = useCallback(
-        (excavate: boolean) => {
-            if (typeof store.image === "undefined") return;
-
-            set({ ...store, image: { ...store.image, excavate } });
-        },
-        [set, store],
+        (excavate: boolean) => set((s) => (s.image ? { image: { ...s.image, excavate } } : {})),
+        [set],
     );
 
     return (
@@ -22,7 +19,7 @@ export function ExcavateSwitch() {
             <FieldContent>
                 <div className="flex flex-row gap-2">
                     <FieldLabel htmlFor="excavate">Excavate</FieldLabel>
-                    <Switch id="excavate" checked={store.image?.excavate} onCheckedChange={onChange} />
+                    <Switch id="excavate" checked={excavate} onCheckedChange={onChange} />
                 </div>
 
                 <FieldDescription>Remove the modules around the embedded image.</FieldDescription>

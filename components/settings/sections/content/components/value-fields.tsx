@@ -91,25 +91,25 @@ const INPUT_TYPE: Partial<Record<FieldDef["kind"], React.ComponentProps<"input">
 };
 
 export function ValueFields() {
-    const { set, ...store } = useCodeConfigStore((s) => s);
+    const type = useCodeConfigStore((s) => s.data.type);
+    const contentMap = useCodeConfigStore((s) => s.data.content);
+    const set = useCodeConfigStore((s) => s.set);
 
-    const { type } = store.data;
-    const content = store.data.content[type] as Record<string, string | boolean>;
+    const content = contentMap[type] as Record<string, string | boolean>;
 
     const update = useCallback(
         (key: string, value: string | boolean) => {
-            set({
-                ...store,
+            set((s) => ({
                 data: {
-                    ...store.data,
+                    ...s.data,
                     content: {
-                        ...store.data.content,
-                        [type]: { ...store.data.content[type], [key]: value },
+                        ...s.data.content,
+                        [type]: { ...s.data.content[type], [key]: value },
                     },
                 },
-            });
+            }));
         },
-        [set, store, type],
+        [set, type],
     );
 
     return (

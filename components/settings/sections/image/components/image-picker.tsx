@@ -17,21 +17,21 @@ import { useCallback, useState } from "react";
 
 export function ImagePicker() {
     const [invalid, setInvalid] = useState(false);
-    const { set, ...store } = useCodeConfigStore((s) => s);
+    const image = useCodeConfigStore((s) => s.image);
+    const set = useCodeConfigStore((s) => s.set);
 
     const onUpload = useCallback(
         (files: File[]) => {
             if (!files[0]) {
-                set({ ...store, image: undefined });
+                set({ image: undefined });
                 return;
             }
 
-            const size = { width: 25, height: 25 };
-            const settings = { file: files[0], excavate: true, opacity: 1 };
-
-            set({ ...store, image: { ...store.image, ...size, ...settings } });
+            set((s) => ({
+                image: { ...s.image, width: 25, height: 25, file: files[0], excavate: true, opacity: 1 },
+            }));
         },
-        [store, set],
+        [set],
     );
 
     return (
@@ -40,7 +40,7 @@ export function ImagePicker() {
             maxSize={5 * 1024 * 1024}
             className="w-full"
             accept="image/*"
-            value={store.image?.file ? [store.image.file] : []}
+            value={image?.file ? [image.file] : []}
             onValueChange={onUpload}
             invalid={invalid}
             onFileAccept={() => setInvalid(false)}
@@ -49,7 +49,7 @@ export function ImagePicker() {
                 alert(message);
             }}
         >
-            {typeof store.image === "undefined" && (
+            {typeof image === "undefined" && (
                 <FileUploadDropzone>
                     <div className="flex flex-col items-center gap-2 text-center">
                         <div className="flex items-center justify-center rounded-full border p-2.5">
@@ -68,13 +68,13 @@ export function ImagePicker() {
                 </FileUploadDropzone>
             )}
 
-            {store.image && (
+            {image && (
                 <FileUploadList>
-                    <FileUploadItem value={store.image?.file}>
+                    <FileUploadItem value={image.file}>
                         <FileUploadItemPreview />
                         <FileUploadItemMetadata />
 
-                        <FileUploadItemDelete asChild onClick={() => set({ ...store, image: undefined })}>
+                        <FileUploadItemDelete asChild onClick={() => set({ image: undefined })}>
                             <Button variant="ghost" size="icon" className="size-7">
                                 <XIcon />
                             </Button>

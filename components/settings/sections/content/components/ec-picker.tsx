@@ -20,15 +20,16 @@ const EC_RECOVERY_CAPACITY: Record<ErrorCorrectionLevel, number> = {
 };
 
 export function ErrorCorrectionPicker() {
-    const { set, ...store } = useCodeConfigStore((s) => s);
+    const ec = useCodeConfigStore((s) => s.data.ec);
+    const set = useCodeConfigStore((s) => s.set);
 
     return (
-        <Labeled label="Error Correction" description={`Recovery capacity: ~${EC_RECOVERY_CAPACITY[store.data.ec]}%`}>
+        <Labeled label="Error Correction" description={`Recovery capacity: ~${EC_RECOVERY_CAPACITY[ec]}%`}>
             <SegmentedPicker
-                value={store.data.ec}
+                value={ec}
                 data={Object.keys(EC_LEVELS) as ErrorCorrectionLevel[]}
                 label={(ec) => EC_LEVELS[ec]}
-                onChange={(ec) => set({ ...store, data: { ...store.data, ec } })}
+                onChange={(ec) => set((s) => ({ data: { ...s.data, ec } }))}
             />
         </Labeled>
     );

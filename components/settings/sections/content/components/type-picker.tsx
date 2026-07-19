@@ -18,12 +18,13 @@ const CODE_TYPES: Record<CodeType, string> = {
 };
 
 export default function TypePicker() {
-    const { set, ...store } = useCodeConfigStore((s) => s);
+    const type = useCodeConfigStore((s) => s.data.type);
+    const set = useCodeConfigStore((s) => s.set);
 
     return (
         <OptionsPicker
-            value={store.data.type}
-            onChange={(type) => set({ ...store, data: { ...store.data, type } })}
+            value={type}
+            onChange={(type) => set((s) => ({ data: { ...s.data, type } }))}
             data={Object.keys(CODE_TYPES) as CodeType[]}
             label={(type) => CODE_TYPES[type]}
         />
