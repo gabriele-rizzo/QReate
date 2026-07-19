@@ -1,8 +1,8 @@
 "use client";
 
+import { useEncodedValue } from "@/hooks/use-encoded-value";
+import { useQrSize } from "@/hooks/use-qr-size";
 import { useCodeConfigStore } from "@/stores/code-config/provider";
-import { useEncodedValue } from "@/stores/code-config/use-encoded-value";
-import { useQrSize } from "@/stores/code-config/use-qr-size";
 import { ReactQRCode, type ImageSettings } from "@lglab/react-qr-code";
 import { useMemo } from "react";
 

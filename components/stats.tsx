@@ -1,8 +1,8 @@
 "use client";
 
+import { useEncodedValue } from "@/hooks/use-encoded-value";
+import { useQrSize } from "@/hooks/use-qr-size";
 import { useCodeConfigStore } from "@/stores/code-config/provider";
-import { useEncodedValue } from "@/stores/code-config/use-encoded-value";
-import { useQrSize } from "@/stores/code-config/use-qr-size";
 
 const Separator = () => <pre>•</pre>;
 
@@ -12,7 +12,7 @@ export function CodeStats() {
     const size = useQrSize();
 
     return (
-        <div className="group-data-[inverted='true']:invert flex flex-row gap-2 md:gap-4 opacity-75 text-sm *:even:text-muted-foreground *:even:opacity-50">
+        <div className="dark:group-data-[inverted='true']:invert flex flex-row gap-2 md:gap-4 opacity-75 text-sm *:even:text-muted-foreground *:even:opacity-50">
             <pre>{size ? `${size}x${size}` : "—"}</pre>
 
             <Separator />

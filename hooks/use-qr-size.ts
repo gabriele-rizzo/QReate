@@ -1,6 +1,8 @@
+"use client";
+
 import { getQrSize } from "@/lib/qr-size";
+import { useCodeConfigStore } from "@/stores/code-config/provider";
 import { useMemo } from "react";
-import { useCodeConfigStore } from "./provider";
 import { useEncodedValue } from "./use-encoded-value";
 
 /**

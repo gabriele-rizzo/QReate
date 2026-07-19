@@ -1,5 +1,6 @@
 import { CopyButton } from "@/components/actions/copy-button";
 import { DownloadButton } from "@/components/actions/download-button";
+import { ResetButton } from "@/components/actions/reset-button";
 import { ShareButton } from "@/components/actions/share-button";
 import { CodeWrapper } from "@/components/layout/code-wrapper";
 import { Footer } from "@/components/layout/footer";
@@ -35,8 +36,12 @@ export default function RootPage() {
                     <Separator orientation="horizontal" className="w-full md:hidden" />
                 </div>
 
-                <div className="overflow-scroll">
-                    <Settings />
+                <div className="relative flex-1 overflow-hidden">
+                    <div className="h-full overflow-scroll">
+                        <Settings />
+                    </div>
+
+                    <ResetButton />
                 </div>
             </div>
 

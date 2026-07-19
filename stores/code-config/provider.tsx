@@ -8,7 +8,7 @@ export type CodeConfigStoreApi = ReturnType<typeof createCodeConfigStore>;
 
 const CodeConfigStoreContext = createContext<CodeConfigStoreApi | undefined>(undefined);
 
-export function useCodeConfigStore<T>(selector: (store: StoreWithSetAction<CodeConfigStore>) => T): T {
+export function useCodeConfigStore<T>(selector: (store: StoreWithActions<CodeConfigStore>) => T): T {
     const codeConfigStoreContext = useContext(CodeConfigStoreContext);
 
     if (!codeConfigStoreContext) throw new Error(`useCounterStore must be used within CounterStoreProvider`);

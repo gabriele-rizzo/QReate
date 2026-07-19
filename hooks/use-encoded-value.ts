@@ -1,6 +1,8 @@
+"use client";
+
 import { encodeCodeValue } from "@/lib/encode-code-value";
+import { useCodeConfigStore } from "@/stores/code-config/provider";
 import { useMemo } from "react";
-import { useCodeConfigStore } from "./provider";
 
 /**
  * Single source of truth for the QR payload derived from the active code type

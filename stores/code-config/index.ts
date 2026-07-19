@@ -30,5 +30,9 @@ export const defaultInitState: CodeConfigStore = {
 };
 
 export function createCodeConfigStore(initState: CodeConfigStore = defaultInitState) {
-    return createStore<StoreWithSetAction<CodeConfigStore>>()((set) => ({ ...initState, set }));
+    return createStore<StoreWithActions<CodeConfigStore>>()((set) => ({
+        ...initState,
+        set,
+        reset: () => set(initState),
+    }));
 }
