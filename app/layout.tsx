@@ -1,12 +1,13 @@
+import { ThemeProvider } from "@/components/layout/theme-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { CodeConfigStoreProvider } from "@/stores/code-config/provider";
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 
 import "@/styles/globals.css";
 
-const fontSans = Inter({
-    subsets: ["latin"],
-    variable: "--font-sans",
-});
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const fontSerif = Playfair_Display({
     subsets: ["latin"],
@@ -25,9 +26,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: React.PropsWithChildren) {
     return (
-        <html lang="en">
-            <body className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}>
-                {children}
+        <html lang="en" suppressHydrationWarning className={cn("font-sans", inter.variable)}>
+            <head>
+                <meta name="apple-mobile-web-app-title" content="QReate" />
+            </head>
+
+            <body className={`${inter.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}>
+                <CodeConfigStoreProvider>
+                    <ThemeProvider>
+                        <TooltipProvider>{children}</TooltipProvider>
+                    </ThemeProvider>
+                </CodeConfigStoreProvider>
             </body>
         </html>
     );
