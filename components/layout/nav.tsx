@@ -8,7 +8,7 @@ interface NavProps {
 
 export function Nav({ actions }: NavProps) {
     return (
-        <div className="shrink-0 h-14 flex flex-row items-center px-4 justify-between">
+        <header className="shrink-0 h-14 flex flex-row items-center px-4 justify-between">
             <Button
                 nativeButton={false}
                 variant="ghost"
@@ -19,6 +19,6 @@ export function Nav({ actions }: NavProps) {
             </Button>
 
             <div className="flex flex-row gap-2">{actions}</div>
-        </div>
+        </header>
     );
 }

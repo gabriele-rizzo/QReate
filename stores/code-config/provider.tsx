@@ -4,7 +4,7 @@ import { useIsomorphicLayoutEffect } from "@/hooks/use-isomorphic-layout-effect"
 import { readConfigFromUrl, writeConfigToUrl } from "@/lib/share-state";
 import { createContext, useContext, useState } from "react";
 import { useStore } from "zustand";
-import { createCodeConfigStore } from "./index";
+import { createCodeConfigStore, defaultInitState } from "./index";
 
 export type CodeConfigStoreApi = ReturnType<typeof createCodeConfigStore>;
 
@@ -22,8 +22,21 @@ export function useCodeConfigStoreApi(): CodeConfigStoreApi {
     return codeConfigStoreContext;
 }
 
-export function CodeConfigStoreProvider({ children }: React.PropsWithChildren) {
-    const [store] = useState(() => createCodeConfigStore());
+interface CodeConfigStoreProviderProps extends React.PropsWithChildren {
+    /**
+     * Preselected code type for this page (used by the per-type landing pages,
+     * e.g. /wifi-qr-code). It becomes part of the store's baseline, so the URL
+     * stays clean until the user changes something.
+     */
+    initialType?: CodeType;
+}
+
+export function CodeConfigStoreProvider({ initialType, children }: CodeConfigStoreProviderProps) {
+    const [store] = useState(() =>
+        createCodeConfigStore(
+            initialType ? { ...defaultInitState, data: { ...defaultInitState.data, type: initialType } } : undefined,
+        ),
+    );
 
     // Hydrate from the URL, then keep the URL in sync with every change (so a
     // refresh restores the state and the share button only has to copy the URL).
@@ -49,7 +62,7 @@ export function CodeConfigStoreProvider({ children }: React.PropsWithChildren) {
             });
         };
 
-        const result = readConfigFromUrl();
+        const result = readConfigFromUrl(store.getState());
 
         if (!result) {
             startSyncing();

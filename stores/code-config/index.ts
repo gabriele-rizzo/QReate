@@ -32,6 +32,7 @@ export const defaultInitState: CodeConfigStore = {
 export function createCodeConfigStore(initState: CodeConfigStore = defaultInitState) {
     return createStore<StoreWithActions<CodeConfigStore>>()((set) => ({
         ...initState,
+        initial: initState,
         set,
         // `set` merges at the top level, so `image` must be cleared explicitly —
         // otherwise an uploaded image survives a reset. Its object URL is

@@ -10,7 +10,7 @@ export function ResetButton() {
     return (
         <Button
             size="lg"
-            className="fixed sm:absolute bottom-12 sm:bottom-4 left-4 z-10 shadow hover:bg-[color-mix(in_oklch,var(--primary),var(--foreground)_8%)]"
+            className="absolute bottom-4 left-4 z-10 shadow hover:bg-[color-mix(in_oklch,var(--primary),var(--foreground)_8%)]"
             onClick={reset}
         >
             <ArrowCounterClockwiseIcon />

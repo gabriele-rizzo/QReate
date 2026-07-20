@@ -72,25 +72,36 @@ function merge(base: unknown, patch: unknown): unknown {
     return out;
 }
 
-function shareableBase(): ShareableConfig {
-    return { data: defaultInitState.data, style: defaultInitState.style };
+/**
+ * The baseline the URL diff is computed against. Each page's store carries the
+ * state it was created with (`initial`), so a type landing page whose store
+ * starts at e.g. `type: "wifi"` produces an empty diff — and a clean URL —
+ * until the user actually changes something. Both encode and decode on a given
+ * path use the same baseline, so links stay self-consistent.
+ */
+function shareableBase(state?: SyncedState): ShareableConfig {
+    const base = state?.initial ?? defaultInitState;
+    return { data: base.data, style: base.style };
 }
 
-/** The minimal diff of a store vs the defaults as a JSON string, or "". */
-function diffJson(store: CodeConfigStore): string {
-    const current = { data: store.data, style: store.style };
-    const changed = diff(current, shareableBase() as unknown as Record<string, unknown>);
+/** The store state plus the baseline it was created from. */
+type SyncedState = CodeConfigStore & { initial: CodeConfigStore };
+
+/** The minimal diff of a store vs its baseline as a JSON string, or "". */
+function diffJson(state: SyncedState): string {
+    const current = { data: state.data, style: state.style };
+    const changed = diff(current, shareableBase(state) as unknown as Record<string, unknown>);
 
     if (Object.keys(changed).length === 0) return "";
     return JSON.stringify(changed);
 }
 
-/** Merge a decoded diff JSON string onto the defaults, or `null` when invalid. */
-function jsonToConfig(json: string): ShareableConfig | null {
+/** Merge a decoded diff JSON string onto the baseline, or `null` when invalid. */
+function jsonToConfig(json: string, base: ShareableConfig): ShareableConfig | null {
     try {
         const patch = JSON.parse(json);
         if (!isPlainObject(patch)) return null;
-        return merge(structuredClone(shareableBase()), patch) as ShareableConfig;
+        return merge(structuredClone(base), patch) as ShareableConfig;
     } catch {
         return null;
     }
@@ -121,9 +132,9 @@ async function inflate(bytes: Uint8Array): Promise<string> {
     return new Response(stream).text();
 }
 
-/** Synchronous encode: `""` when at defaults, otherwise the raw (`"0"`) form. */
-function encodeRaw(store: CodeConfigStore): string {
-    const json = diffJson(store);
+/** Synchronous encode: `""` when at the baseline, otherwise the raw (`"0"`) form. */
+function encodeRaw(state: SyncedState): string {
+    const json = diffJson(state);
     return json ? RAW + textToBase64Url(json) : "";
 }
 
@@ -132,10 +143,10 @@ function encodeRaw(store: CodeConfigStore): string {
  * shorter than `raw`; returns `null` otherwise (small payload, no win, or the
  * Compression Streams API being unavailable).
  */
-async function encodeCompressed(store: CodeConfigStore, raw: string): Promise<string | null> {
+async function encodeCompressed(state: SyncedState, raw: string): Promise<string | null> {
     if (raw.length <= COMPRESS_THRESHOLD || typeof CompressionStream === "undefined") return null;
 
-    const json = diffJson(store);
+    const json = diffJson(state);
     if (!json) return null;
 
     try {
@@ -146,12 +157,12 @@ async function encodeCompressed(store: CodeConfigStore, raw: string): Promise<st
     }
 }
 
-function decode(encoded: string): DecodeResult | null {
+function decode(encoded: string, base: ShareableConfig): DecodeResult | null {
     const marker = encoded[0];
 
     if (marker === ZIP) {
         const config = inflate(base64UrlToBytes(encoded.slice(1)))
-            .then(jsonToConfig)
+            .then((json) => jsonToConfig(json, base))
             .catch(() => null);
         return { kind: "async", config };
     }
@@ -160,7 +171,7 @@ function decode(encoded: string): DecodeResult | null {
     // markerless payload so older links keep working.
     const payload = marker === RAW ? encoded.slice(1) : encoded;
     try {
-        const config = jsonToConfig(base64UrlToText(payload));
+        const config = jsonToConfig(base64UrlToText(payload), base);
         return config ? { kind: "sync", config } : null;
     } catch {
         return null;
@@ -179,11 +190,11 @@ function setParam(value: string): void {
 }
 
 /** Read the shareable config from the current URL, if present and valid. */
-export function readConfigFromUrl(): DecodeResult | null {
+export function readConfigFromUrl(state: SyncedState): DecodeResult | null {
     if (typeof window === "undefined") return null;
 
     const encoded = getParam();
-    return encoded ? decode(encoded) : null;
+    return encoded ? decode(encoded, shareableBase(state)) : null;
 }
 
 /**
@@ -192,15 +203,15 @@ export function readConfigFromUrl(): DecodeResult | null {
  * always immediately valid; large payloads are then upgraded to the shorter
  * compressed form asynchronously, guarded against races with newer edits.
  */
-export function writeConfigToUrl(store: CodeConfigStore): void {
+export function writeConfigToUrl(state: SyncedState): void {
     if (typeof window === "undefined") return;
 
-    const raw = encodeRaw(store);
+    const raw = encodeRaw(state);
     setParam(raw);
 
     if (!raw || raw.length <= COMPRESS_THRESHOLD) return;
 
-    encodeCompressed(store, raw).then((zipped) => {
+    encodeCompressed(state, raw).then((zipped) => {
         // Only apply if the URL still reflects the raw form we started from —
         // otherwise a newer edit already wrote (and will compress) its own state.
         if (zipped && getParam() === raw) setParam(zipped);

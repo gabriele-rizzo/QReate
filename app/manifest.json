@@ -1,6 +1,9 @@
 {
-  "name": "QReate",
+  "name": "QReate — QR Code Generator",
   "short_name": "QReate",
+  "description": "Free QR code generator with custom colors, shapes and logos. No signup — everything runs in your browser.",
+  "id": "/",
+  "start_url": "/",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -17,5 +20,6 @@
   ],
   "theme_color": "#1e1e1e",
   "background_color": "#e6e2db",
-  "display": "standalone"
+  "display": "standalone",
+  "categories": ["utilities", "productivity"]
 }
