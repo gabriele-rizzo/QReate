@@ -1,5 +1,6 @@
 "use client";
 
+import { useCode } from "@/hooks/use-code";
 import { useEncodedValue } from "@/hooks/use-encoded-value";
 import { useQrSize } from "@/hooks/use-qr-size";
 import { useCodeConfigStore } from "@/stores/code-config/provider";
@@ -8,8 +9,10 @@ import { useMemo } from "react";
 
 export function Code() {
     const { style, data, image } = useCodeConfigStore((s) => s);
+
     const value = useEncodedValue();
     const size = useQrSize();
+    const code = useCode();
 
     const is = useMemo<ImageSettings | undefined>(() => {
         if (typeof image === "undefined" || !image || !image.file) return undefined;
@@ -32,6 +35,7 @@ export function Code() {
 
     return (
         <ReactQRCode
+            ref={code}
             value={value || " "}
             svgProps={{ className: "size-full" }}
             marginSize={style.margin}

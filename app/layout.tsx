@@ -5,6 +5,7 @@ import { CodeConfigStoreProvider } from "@/stores/code-config/provider";
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 
+import { CodeProvider } from "@/hooks/use-code";
 import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -34,7 +35,9 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
             <body className={`${inter.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}>
                 <CodeConfigStoreProvider>
                     <ThemeProvider>
-                        <TooltipProvider>{children}</TooltipProvider>
+                        <TooltipProvider>
+                            <CodeProvider>{children}</CodeProvider>
+                        </TooltipProvider>
                     </ThemeProvider>
                 </CodeConfigStoreProvider>
             </body>
