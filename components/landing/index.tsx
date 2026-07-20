@@ -4,8 +4,8 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
 /*
- * Landing content rendered below the generator. Pure server components — no
- * client JS — so this is fast, fully crawlable text: the page's h1, feature
+ * Landing content rendered below the generator. Pure server components, no
+ * client JS, so this is fast, fully crawlable text: the page's h1, feature
  * copy, how-to steps, FAQs (with matching JSON-LD) and internal links between
  * the per-type landing pages.
  */
@@ -18,7 +18,7 @@ export interface Faq {
 export const HOME_FAQS: Faq[] = [
     {
         question: "Is QReate really free?",
-        answer: "Yes — every feature is free: unlimited QR codes, full styling, logo embedding and high-resolution downloads. No account, no watermark, no paid tier.",
+        answer: "Yes, every feature is free: unlimited QR codes, full styling, logo embedding and high-resolution downloads. No account, no watermark, no paid tier.",
     },
     {
         question: "Do the QR codes expire?",
@@ -26,15 +26,15 @@ export const HOME_FAQS: Faq[] = [
     },
     {
         question: "Is my data private?",
-        answer: "Yes. Codes are generated entirely in your browser — the text, passwords or contact details you enter are never uploaded to any server.",
+        answer: "Yes. Codes are generated entirely in your browser, the text, passwords or contact details you enter are never uploaded to any server.",
     },
     {
         question: "Do my QR codes track scans?",
-        answer: "No. Because the content is encoded directly with no redirects, there is nothing to track — by design. If you need scan analytics, a static code is the wrong tool; what you get instead is privacy and permanence.",
+        answer: "No. Because the content is encoded directly with no redirects, there is nothing to track, by design. If you need scan analytics, a static code is the wrong tool; what you get instead is privacy and permanence.",
     },
     {
         question: "Can I add my logo to a QR code?",
-        answer: "Yes — upload an image, size and position it, adjust its opacity, and optionally excavate the modules behind it so it stays legible. Use a higher error correction level to keep the code reliably scannable.",
+        answer: "Yes, upload an image, size and position it, adjust its opacity, and optionally excavate the modules behind it so it stays legible. Use a higher error correction level to keep the code reliably scannable.",
     },
     {
         question: "Which file formats can I download?",
@@ -42,11 +42,11 @@ export const HOME_FAQS: Faq[] = [
     },
     {
         question: "What is error correction?",
-        answer: "QR codes embed redundancy so they scan even when partially damaged or covered. The four levels — L, M, Q, H — recover roughly 7%, 15%, 25% and 30% of the code. Higher levels make denser codes; use Q or H when embedding a logo.",
+        answer: "QR codes embed redundancy so they scan even when partially damaged or covered. The four levels, L, M, Q, H, recover roughly 7%, 15%, 25% and 30% of the code. Higher levels make denser codes; use Q or H when embedding a logo.",
     },
     {
         question: "How much data fits in a QR code?",
-        answer: "Up to about 2,900 characters at the lowest error correction level. Shorter content produces a coarser, faster-scanning code — so keep it brief when you can.",
+        answer: "Up to about 2,900 characters at the lowest error correction level. Shorter content produces a coarser, faster-scanning code, so keep it brief when you can.",
     },
 ];
 
@@ -57,11 +57,11 @@ const FEATURES: { title: string; body: string }[] = [
     },
     {
         title: "Private by design",
-        body: "Everything runs in your browser. Wi-Fi passwords, contacts, links — nothing you type is ever uploaded.",
+        body: "Everything runs in your browser. Wi-Fi passwords, contacts, links, nothing you type is ever uploaded.",
     },
     {
         title: "Never expires",
-        body: "Static codes encode your content directly — no redirect servers, no link rot, no scan limits. Print once, works forever.",
+        body: "Static codes encode your content directly, no redirect servers, no link rot, no scan limits. Print once, works forever.",
     },
     {
         title: "Deep customization",
@@ -160,7 +160,7 @@ function TypeGrid({ current }: { current?: QrTypePage }) {
             </div>
 
             <p className="mt-6 text-sm text-muted-foreground">
-                The generator also encodes cryptocurrency addresses and raw byte payloads —{" "}
+                The generator also encodes cryptocurrency addresses and raw byte payloads. To use them,{" "}
                 {current ? (
                     <Link href="/" className="underline underline-offset-3 hover:text-foreground">
                         open the full QR code generator
@@ -208,7 +208,7 @@ export function HomeLanding() {
                     operatingSystem: "Any",
                     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
                     description:
-                        "Free QR code generator with custom colors, shapes and logos. Runs entirely in the browser — no signup, codes never expire.",
+                        "Free QR code generator with custom colors, shapes and logos. Runs entirely in the browser, no signup, codes never expire.",
                     featureList: FEATURES.map((feature) => feature.title),
                     author: { "@type": "Person", name: "Gabriele Rizzo", url: "https://x.com/gabrielerizzoo" },
                 }}
@@ -218,16 +218,16 @@ export function HomeLanding() {
             <Separator orientation="horizontal" />
             <Hero
                 h1="Free QR Code Generator"
-                intro="Create custom QR codes in seconds — pick from eleven content types, style every module, embed your logo, and export print-ready files. No signup, no watermark, no expiry. Everything runs in your browser, so what you encode stays on your device."
+                intro="Create custom QR codes in seconds, pick from eleven content types, style every module, embed your logo, and export print-ready files. No signup, no watermark, no expiry. Everything runs in your browser, so what you encode stays on your device."
             />
             <FeatureGrid />
             <TypeGrid />
             <Steps
                 title="How to create a QR code"
                 steps={[
-                    "Pick a content type — link, Wi-Fi, contact, event and more — and fill in the details.",
+                    "Pick a content type, link, Wi-Fi, contact, event and more, and fill in the details.",
                     "Style it: colors, module shapes, finder patterns, background, or your logo.",
-                    "Download as SVG, PNG or JPEG — or copy a share link that preserves your design.",
+                    "Download as SVG, PNG or JPEG, or copy a share link that preserves your design.",
                 ]}
             />
             <FaqSection faqs={HOME_FAQS} />

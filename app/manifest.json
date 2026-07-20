@@ -1,7 +1,7 @@
 {
-  "name": "QReate — QR Code Generator",
+  "name": "QReate: QR Code Generator",
   "short_name": "QReate",
-  "description": "Free QR code generator with custom colors, shapes and logos. No signup — everything runs in your browser.",
+  "description": "Free QR code generator with custom colors, shapes and logos. No signup, everything runs in your browser.",
   "id": "/",
   "start_url": "/",
   "icons": [

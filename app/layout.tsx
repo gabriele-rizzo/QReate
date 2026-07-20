@@ -20,11 +20,11 @@ const fontMono = JetBrains_Mono({
 });
 
 const description =
-    "Create custom QR codes with logos, colors and unique shapes — free, no signup, no expiry. Wi-Fi, vCard, URL and more. Everything runs in your browser.";
+    "Create custom QR codes with logos, colors and unique shapes, free, no signup, no expiry. Wi-Fi, vCard, URL and more. Everything runs in your browser.";
 
 export const metadata: Metadata = {
     metadataBase: new URL(SITE_URL),
-    title: "Free QR Code Generator — Custom Designs & Logo | QReate",
+    title: "Free QR Code Generator: Custom Designs & Logo | QReate",
     description,
     applicationName: "QReate",
     alternates: { canonical: "/" },
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     ],
     authors: [{ name: "Gabriele Rizzo", url: "https://x.com/gabrielerizzoo" }],
     openGraph: {
-        title: "Free QR Code Generator — Custom Designs & Logo | QReate",
+        title: "Free QR Code Generator: Custom Designs & Logo | QReate",
         description,
         siteName: "QReate",
         type: "website",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Free QR Code Generator — Custom Designs & Logo | QReate",
+        title: "Free QR Code Generator: Custom Designs & Logo | QReate",
         description,
         creator: "@gabrielerizzoo",
     },
