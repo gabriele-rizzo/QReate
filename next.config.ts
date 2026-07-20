@@ -35,6 +35,11 @@ export default {
     reactCompiler: true,
     devIndicators: false,
     reactStrictMode: process.env.NODE_ENV === "development",
+    experimental: {
+        // Inline CSS into the HTML as <style>, removing the render-blocking
+        // stylesheet request on the critical path (App Router native).
+        inlineCss: true,
+    },
     async headers() {
         return [{ source: "/:path*", headers: securityHeaders }];
     },
