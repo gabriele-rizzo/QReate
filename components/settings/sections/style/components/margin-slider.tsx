@@ -11,6 +11,7 @@ export function MarginSlider() {
     return (
         <Labeled label="Margin" secondary={margin.toString()}>
             <Slider
+                aria-label="Margin"
                 min={1}
                 max={10}
                 value={margin}

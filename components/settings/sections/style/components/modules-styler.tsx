@@ -60,6 +60,7 @@ export function ModulesStyler() {
                     secondary={modules[changeable].toString()}
                 >
                     <Slider
+                        aria-label={changeable === "size" ? "Size" : "Line Width"}
                         min={changeable === "size" ? 0.75 : 0.25}
                         max={1}
                         value={modules[changeable]}

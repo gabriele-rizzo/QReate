@@ -11,6 +11,7 @@ export function MinVersionSlider() {
     return (
         <Labeled label="Min Version" secondary={min.toString()}>
             <Slider
+                aria-label="Min Version"
                 min={1}
                 max={40}
                 value={min}

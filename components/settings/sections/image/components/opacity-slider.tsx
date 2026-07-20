@@ -19,7 +19,7 @@ export function OpacitySlider() {
 
     return (
         <Labeled label="Opacity" secondary={opacity?.toString() ?? "0.0"}>
-            <Slider min={0} max={1} value={opacity} step={0.01} onValueChange={onChange} />
+            <Slider aria-label="Opacity" min={0} max={1} value={opacity} step={0.01} onValueChange={onChange} />
         </Labeled>
     );
 }
