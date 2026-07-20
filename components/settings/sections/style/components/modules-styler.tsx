@@ -32,6 +32,7 @@ export function ModulesStyler() {
         <div className="flex flex-col gap-4">
             <Labeled label="Data Modules" secondary="Style" className="flex flex-row gap-2">
                 <OptionsPicker
+                    aria-label="Data module style"
                     value={modules.style}
                     className="w-40"
                     data={Object.keys(MODULES_STYLES_OPTIONS) as CodeDataModulesStyle[]}

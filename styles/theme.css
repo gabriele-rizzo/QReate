@@ -36,7 +36,7 @@
     --sidebar-border: oklch(0.8434 0.0231 87.1621);
     --sidebar-ring: oklch(0.3012 0 0);
     --font-sans: "Inter", sans-serif;
-    --font-serif: "Playfair Display", serif;
+    --font-serif: serif;
     --font-mono: "JetBrains Mono", monospace;
     --radius: 0.5rem;
     --shadow-x: 0px;
@@ -96,7 +96,7 @@
     --sidebar-border: oklch(0.2931 0 0);
     --sidebar-ring: oklch(0.852 0.0205 100.6306);
     --font-sans: "Inter", sans-serif;
-    --font-serif: "Playfair Display", serif;
+    --font-serif: serif;
     --font-mono: "JetBrains Mono", monospace;
     --radius: 0.5rem;
     --shadow-x: 0px;
@@ -155,7 +155,7 @@
 
     --font-sans: "Inter", sans-serif;
     --font-mono: "JetBrains Mono", monospace;
-    --font-serif: "Playfair Display", serif;
+    --font-serif: serif;
 
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);

@@ -43,6 +43,7 @@ export function FinderStyler() {
         <div className="flex flex-col gap-4">
             <Labeled label="Finder" secondary="Outer" className="flex flex-row gap-2">
                 <OptionsPicker
+                    aria-label="Finder outer style"
                     value={finder.outer.style}
                     className="w-40"
                     data={Object.keys(OUTER_STYLES) as FinderPatternOuterStyle[]}
@@ -66,6 +67,7 @@ export function FinderStyler() {
 
             <Labeled label="Finder" secondary="Inner" className="flex flex-row gap-2">
                 <OptionsPicker
+                    aria-label="Finder inner style"
                     value={finder.inner.style}
                     className="w-40"
                     data={Object.keys(INNER_STYLES) as FinderPatternInnerStyle[]}

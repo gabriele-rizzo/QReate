@@ -23,6 +23,7 @@ export default function TypePicker() {
 
     return (
         <OptionsPicker
+            aria-label="Content type"
             value={type}
             onChange={(type) => set((s) => ({ data: { ...s.data, type } }))}
             data={Object.keys(CODE_TYPES) as CodeType[]}

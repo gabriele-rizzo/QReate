@@ -4,16 +4,11 @@ import { SITE_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 
 import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-
-const fontSerif = Playfair_Display({
-    subsets: ["latin"],
-    variable: "--font-serif",
-});
 
 const fontMono = JetBrains_Mono({
     subsets: ["latin"],
@@ -69,7 +64,7 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
                 <meta name="apple-mobile-web-app-title" content="QReate" />
             </head>
 
-            <body className={`${inter.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}>
+            <body className={`${inter.variable} ${fontMono.variable} antialiased`}>
                 <Analytics />
 
                 <ThemeProvider>

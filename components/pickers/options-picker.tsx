@@ -7,12 +7,22 @@ interface OptionsPickerProps<T extends string> {
     label: (value: T) => string;
     onChange: (value: T) => void;
     className?: string;
+    /** Accessible name for the select, since it has no visually-associated <label>. */
+    "aria-label": string;
 }
 
-export function OptionsPicker<T extends string>({ value, data, className, label, onChange }: OptionsPickerProps<T>) {
+export function OptionsPicker<T extends string>({
+    value,
+    data,
+    className,
+    label,
+    onChange,
+    "aria-label": ariaLabel,
+}: OptionsPickerProps<T>) {
     return (
         <NativeSelect
             value={value}
+            aria-label={ariaLabel}
             className={cn("w-fit", className)}
             onChange={(event) => onChange(event.target.value as T)}
         >
