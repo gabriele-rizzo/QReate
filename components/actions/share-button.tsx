@@ -9,7 +9,7 @@ export function ShareButton() {
         <Tooltip>
             <TooltipTrigger
                 render={
-                    <Button variant="outline">
+                    <Button variant="outline" disabled>
                         <ShareNetworkIcon />
                     </Button>
                 }
