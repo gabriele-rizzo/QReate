@@ -25,12 +25,14 @@ export function BackgroundPicker() {
                 }
             />
 
-            <ColorPicker
-                value={background.color}
-                onChange={(color) =>
-                    set((s) => ({ style: { ...s.style, background: { ...s.style.background, color } } }))
-                }
-            />
+            {background.type !== "transparent" && (
+                <ColorPicker
+                    value={background.color}
+                    onChange={(color) =>
+                        set((s) => ({ style: { ...s.style, background: { ...s.style.background, color } } }))
+                    }
+                />
+            )}
         </Labeled>
     );
 }

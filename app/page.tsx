@@ -12,7 +12,7 @@ import packageJson from "@/package.json";
 
 export default function RootPage() {
     return (
-        <div className="flex w-full flex-col sm:h-dvh sm:overflow-hidden">
+        <div className="flex w-full flex-col h-dvh overflow-hidden">
             <Nav
                 actions={
                     <>
@@ -28,7 +28,7 @@ export default function RootPage() {
 
             <Separator orientation="horizontal" />
 
-            <div className="flex flex-col sm:h-full sm:flex-row sm:*:odd:flex-1 sm:overflow-hidden">
+            <div className="flex flex-col sm:h-full sm:flex-row sm:*:odd:flex-1 overflow-scroll sm:overflow-hidden">
                 <CodeWrapper />
 
                 <div>
