@@ -1,7 +1,8 @@
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
 import { SITE_URL } from "@/lib/site";
+import { cn } from "@/lib/utils";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 
@@ -69,6 +70,8 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
             </head>
 
             <body className={`${inter.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}>
+                <Analytics />
+
                 <ThemeProvider>
                     <TooltipProvider>{children}</TooltipProvider>
                 </ThemeProvider>

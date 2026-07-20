@@ -38,6 +38,15 @@ function tagExists(tag) {
     }
 }
 
+function hasOriginRemote() {
+    try {
+        git(["remote", "get-url", "origin"], { stdio: "ignore" });
+        return true;
+    } catch {
+        return false;
+    }
+}
+
 function nextVersion(current, bump) {
     const match = current.match(SEMVER);
     if (!match) fail(`Current version "${current}" in package.json is not valid semver.`);
@@ -88,4 +97,15 @@ try {
 }
 
 console.log(`\n✔ Committed and tagged ${tag}`);
-console.log(`  Push it with: git push && git push origin ${tag}\n`);
+
+if (hasOriginRemote()) {
+    try {
+        git(["push", "-u", "origin", "main"], { stdio: "inherit" });
+        git(["push", "origin", tag], { stdio: "inherit" });
+        console.log(`\n✔ Pushed main and ${tag} to origin\n`);
+    } catch {
+        fail(`Push failed. The commit and tag exist locally; push manually with: git push -u origin main && git push origin ${tag}`);
+    }
+} else {
+    console.log(`  No "origin" remote configured. Push it with: git push -u origin main && git push origin ${tag}\n`);
+}
