@@ -13,4 +13,14 @@ export default defineConfig([
         "build/**",
         "next-env.d.ts",
     ]),
+    {
+        // Vendored primitives (shadcn/diceui) use imperative external-store and
+        // DOM patterns the React Compiler bails on; it falls back to plain
+        // React there, which is fine — don't fail lint over vendored code.
+        files: ["components/ui/**"],
+        rules: {
+            "react-hooks/immutability": "off",
+            "react-hooks/preserve-manual-memoization": "off",
+        },
+    },
 ]);

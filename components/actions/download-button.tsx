@@ -3,7 +3,6 @@
 import { useCode } from "@/hooks/use-code";
 import type { DownloadFileFormat } from "@lglab/react-qr-code";
 import { CaretDownIcon, DownloadSimpleIcon } from "@phosphor-icons/react";
-import { useCallback } from "react";
 import { Button } from "../ui/button";
 import {
     DropdownMenu,
@@ -25,32 +24,37 @@ const SIZES: Record<string, number> = {
     XL: 4096,
 } as const;
 
+interface SizeOptionsProps {
+    format: DownloadFileFormat;
+    download: (format: DownloadFileFormat, size?: number) => void;
+}
+
+function SizeOptions({ format, download }: SizeOptionsProps) {
+    return (
+        <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+                {Object.entries(SIZES).map(([label, size]) => (
+                    <DropdownMenuItem key={label.toLowerCase()} onClick={() => download(format, size)}>
+                        {label}
+                        <DropdownMenuShortcut>{size}</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                ))}
+            </DropdownMenuSubContent>
+        </DropdownMenuPortal>
+    );
+}
+
 export function DownloadButton() {
     const code = useCode();
 
-    const download = useCallback((format: DownloadFileFormat, size?: number) => {
+    // Memoized by the React Compiler — no manual useCallback.
+    const download = (format: DownloadFileFormat, size?: number) => {
         if (!code.current) return;
 
         const details = format === "svg" ? "svg" : `${format}_${size}x${size}`;
 
         code.current.download({ format, size, name: `qrcode_${details}` });
-    }, []);
-
-    const SizeOptions = useCallback(
-        ({ format }: { format: DownloadFileFormat }) => (
-            <DropdownMenuPortal>
-                <DropdownMenuSubContent>
-                    {Object.entries(SIZES).map(([label, size]) => (
-                        <DropdownMenuItem key={label.toLowerCase()} onClick={() => download(format, size)}>
-                            {label}
-                            <DropdownMenuShortcut>{size}</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                    ))}
-                </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-        ),
-        [download],
-    );
+    };
 
     return (
         <DropdownMenu>
@@ -58,7 +62,7 @@ export function DownloadButton() {
                 render={
                     <Button variant="default">
                         <DownloadSimpleIcon />
-                        <span className="hidden sm:inline">Download</span>
+                        <span className="sr-only sm:not-sr-only">Download</span>
                         <CaretDownIcon size={10} className="opacity-50" />
                     </Button>
                 }
@@ -68,11 +72,11 @@ export function DownloadButton() {
                 <DropdownMenuGroup>
                     <DropdownMenuSub>
                         <DropdownMenuSubTrigger>JPEG</DropdownMenuSubTrigger>
-                        <SizeOptions format="jpeg" />
+                        <SizeOptions format="jpeg" download={download} />
                     </DropdownMenuSub>
                     <DropdownMenuSub>
                         <DropdownMenuSubTrigger>PNG</DropdownMenuSubTrigger>
-                        <SizeOptions format="png" />
+                        <SizeOptions format="png" download={download} />
                     </DropdownMenuSub>
 
                     <DropdownMenuItem onClick={() => download("svg")}>

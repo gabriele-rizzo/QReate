@@ -5,7 +5,6 @@ import { useEncodedValue } from "@/hooks/use-encoded-value";
 import { useQrSize } from "@/hooks/use-qr-size";
 import { useCodeConfigStore } from "@/stores/code-config/provider";
 import { ReactQRCode, type ImageSettings } from "@lglab/react-qr-code";
-import { useMemo } from "react";
 
 export function Code() {
     const { style, data, image } = useCodeConfigStore((s) => s);
@@ -14,13 +13,11 @@ export function Code() {
     const size = useQrSize();
     const code = useCode();
 
-    const is = useMemo<ImageSettings | undefined>(() => {
-        if (typeof image === "undefined" || !image || !image.file) return undefined;
-
-        const src = URL.createObjectURL(image.file);
-
-        return { src, ...image };
-    }, [image]);
+    // `image.src` is an object URL owned by the store (created on upload,
+    // revoked on replace/remove/reset), so rendering stays pure.
+    const is: ImageSettings | undefined = image
+        ? { src: image.src, width: image.width, height: image.height, excavate: image.excavate, opacity: image.opacity }
+        : undefined;
 
     // A non-empty value that fits no version (1–40) makes the encoder throw
     // "Data too long" mid-render and crash the page. useQrSize returns null in

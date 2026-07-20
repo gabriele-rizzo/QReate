@@ -22,14 +22,24 @@ export function ImagePicker() {
 
     const onUpload = useCallback(
         (files: File[]) => {
-            if (!files[0]) {
-                set({ image: undefined });
-                return;
-            }
+            // The object URL is created here (and revoked on replace/remove) so
+            // rendering stays pure and no blob outlives its image.
+            set((s) => {
+                if (s.image) URL.revokeObjectURL(s.image.src);
 
-            set((s) => ({
-                image: { ...s.image, width: 25, height: 25, file: files[0], excavate: true, opacity: 1 },
-            }));
+                if (!files[0]) return { image: undefined };
+
+                return {
+                    image: {
+                        file: files[0],
+                        src: URL.createObjectURL(files[0]),
+                        width: 25,
+                        height: 25,
+                        excavate: true,
+                        opacity: 1,
+                    },
+                };
+            });
         },
         [set],
     );
@@ -74,8 +84,16 @@ export function ImagePicker() {
                         <FileUploadItemPreview />
                         <FileUploadItemMetadata />
 
-                        <FileUploadItemDelete asChild onClick={() => set({ image: undefined })}>
-                            <Button variant="ghost" size="icon" className="size-7">
+                        <FileUploadItemDelete
+                            asChild
+                            onClick={() =>
+                                set((s) => {
+                                    if (s.image) URL.revokeObjectURL(s.image.src);
+                                    return { image: undefined };
+                                })
+                            }
+                        >
+                            <Button variant="ghost" size="icon" className="size-7" aria-label="Remove image">
                                 <XIcon />
                             </Button>
                         </FileUploadItemDelete>

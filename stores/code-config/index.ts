@@ -33,6 +33,13 @@ export function createCodeConfigStore(initState: CodeConfigStore = defaultInitSt
     return createStore<StoreWithActions<CodeConfigStore>>()((set) => ({
         ...initState,
         set,
-        reset: () => set(initState),
+        // `set` merges at the top level, so `image` must be cleared explicitly —
+        // otherwise an uploaded image survives a reset. Its object URL is
+        // revoked here so no reset path can leak the blob.
+        reset: () =>
+            set((s) => {
+                if (s.image) URL.revokeObjectURL(s.image.src);
+                return { ...initState, image: undefined };
+            }),
     }));
 }

@@ -12,8 +12,10 @@ export function ImageSizeInput() {
 
     const onChange = useCallback(
         (value: string, key: keyof Pick<ImageSettings, "width" | "height">) => {
+            // An empty/invalid field parses to NaN — store 0 instead so the QR
+            // settings and the URL-encoded state always hold real numbers.
             const parsed = parseInt(value);
-            set((s) => (s.image ? { image: { ...s.image, [key]: parsed } } : {}));
+            set((s) => (s.image ? { image: { ...s.image, [key]: Number.isNaN(parsed) ? 0 : parsed } } : {}));
         },
         [set],
     );

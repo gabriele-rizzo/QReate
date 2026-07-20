@@ -11,10 +11,15 @@ export type CodeConfigStoreApi = ReturnType<typeof createCodeConfigStore>;
 const CodeConfigStoreContext = createContext<CodeConfigStoreApi | undefined>(undefined);
 
 export function useCodeConfigStore<T>(selector: (store: StoreWithActions<CodeConfigStore>) => T): T {
+    return useStore(useCodeConfigStoreApi(), selector);
+}
+
+/** The raw store API — for imperative reads that shouldn't subscribe to updates. */
+export function useCodeConfigStoreApi(): CodeConfigStoreApi {
     const codeConfigStoreContext = useContext(CodeConfigStoreContext);
 
-    if (!codeConfigStoreContext) throw new Error(`useCounterStore must be used within CounterStoreProvider`);
-    return useStore(codeConfigStoreContext, selector);
+    if (!codeConfigStoreContext) throw new Error(`useCodeConfigStore must be used within CodeConfigStoreProvider`);
+    return codeConfigStoreContext;
 }
 
 export function CodeConfigStoreProvider({ children }: React.PropsWithChildren) {
@@ -30,11 +35,18 @@ export function CodeConfigStoreProvider({ children }: React.PropsWithChildren) {
     useIsomorphicLayoutEffect(() => {
         let cancelled = false;
         let unsubscribe = () => {};
+        let timeout: ReturnType<typeof setTimeout> | undefined;
 
         const startSyncing = () => {
             if (cancelled) return;
             writeConfigToUrl(store.getState());
-            unsubscribe = store.subscribe(writeConfigToUrl);
+
+            // Debounced: typing and slider drags fire per event, and browsers
+            // (Safari especially) rate-limit history.replaceState.
+            unsubscribe = store.subscribe((state) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => writeConfigToUrl(state), 200);
+            });
         };
 
         const result = readConfigFromUrl();
@@ -54,6 +66,7 @@ export function CodeConfigStoreProvider({ children }: React.PropsWithChildren) {
 
         return () => {
             cancelled = true;
+            clearTimeout(timeout);
             unsubscribe();
         };
     }, [store]);

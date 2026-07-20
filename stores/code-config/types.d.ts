@@ -79,6 +79,8 @@ declare global {
         };
         image?: {
             file: File;
+            /** Object URL for `file` — created on upload, revoked on replace/remove/reset. */
+            src: string;
             width: number;
             height: number;
             excavate: boolean;

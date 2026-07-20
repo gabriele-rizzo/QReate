@@ -9,7 +9,12 @@ interface NavProps {
 export function Nav({ actions }: NavProps) {
     return (
         <div className="shrink-0 h-14 flex flex-row items-center px-4 justify-between">
-            <Button nativeButton={false} variant="ghost" className="-ml-2" render={<Link href="/" />}>
+            <Button
+                nativeButton={false}
+                variant="ghost"
+                className="-ml-2"
+                render={<Link href="/" aria-label="QReate home" />}
+            >
                 <Logo className="size-4 fill-foreground" />
             </Button>
 
