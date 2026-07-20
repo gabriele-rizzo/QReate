@@ -59,7 +59,7 @@ export function ModulesStyler() {
                     secondary={modules[changeable].toString()}
                 >
                     <Slider
-                        min={0.75}
+                        min={changeable === "size" ? 0.75 : 0.25}
                         max={1}
                         value={modules[changeable]}
                         step={0.01}
